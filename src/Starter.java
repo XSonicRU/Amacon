@@ -8,7 +8,7 @@ public class Starter { //Class used for starting application
             Scanner s = new Scanner(System.in);
             String a = s.nextLine();
             if (a.equalsIgnoreCase("client")) {
-                Client.Start();
+                Server.Start();
                 break;
             } else if (a.equalsIgnoreCase("server")) {
 
