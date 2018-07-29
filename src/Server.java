@@ -1,4 +1,4 @@
-public class Server { //Server class
+class Server { //Server class
     static void Start() {
 
     }
