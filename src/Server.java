@@ -1,18 +1,20 @@
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
-import java.net.DatagramSocket;
-import java.net.InetAddress;
-import java.net.ServerSocket;
-import java.net.URL;
+import java.net.*;
 
 class Server { //Server class
     static void Start(boolean isLocal) throws IOException {
-        ServerSocket s = new ServerSocket(5000);
+        ServerSocket ss = new ServerSocket(5000);
         System.out.println("This is a server IP: " + getIP(isLocal));
-        System.out.println("Just send it to client");
+        System.out.println("Just send it to client!");
         System.out.println("Waiting for client to connect...");
-        s.accept();
+        Socket s = ss.accept();
+        System.out.println("Connected! Waiting for input...");
+        BufferedReader br = new BufferedReader(new InputStreamReader(s.getInputStream()));
+        while (true) {
+            System.out.println(br.ready());
+        }
     }
 
     private static String getIP(boolean isLocal) {
