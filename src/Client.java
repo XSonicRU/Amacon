@@ -16,6 +16,7 @@ class Client { //Client class
             System.exit(0);
         }
         PrintWriter writer = new PrintWriter(chat.getOutputStream());
+        writer.println("Hello world");
     }
 
     public static void setIPadress() throws IOException {
