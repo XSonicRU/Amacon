@@ -4,7 +4,7 @@ import java.net.InetAddress;
 import java.net.ServerSocket;
 
 class Server { //Server class
-    static void Start() throws IOException {
+    static void Start(boolean isLocal) throws IOException {
         ServerSocket s = new ServerSocket(5000);
         System.out.println("This is a server IP: " + getIP());
         System.out.println("Just send it to client");
