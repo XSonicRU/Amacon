@@ -18,9 +18,10 @@ class Client { //Client class
         PrintWriter writer = new PrintWriter(chat.getOutputStream());
     }
 
-    public static void setIPadress() {
+    public static void setIPadress() throws IOException {
         System.out.println("Enter server IP adress:");
         Scanner sc = new Scanner(System.in);
         IPadress = sc.nextLine();
+        Start();
     }
 }
