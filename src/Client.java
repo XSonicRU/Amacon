@@ -1,4 +1,5 @@
 import java.io.IOException;
+import java.io.PrintWriter;
 import java.net.Socket;
 import java.util.Scanner;
 
@@ -8,6 +9,7 @@ class Client { //Client class
 
     static void Start() throws IOException {
         Socket chat = new Socket(IPadress, port);
+        PrintWriter writer = new PrintWriter(chat.getOutputStream());
     }
 
     public static void setIPadress() {
