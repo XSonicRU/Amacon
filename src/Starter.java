@@ -10,6 +10,7 @@ public class Starter { //Class used for starting application
             String a = s.nextLine();
             if (a.equalsIgnoreCase("client")) {
                 Client.setIPadress();
+                break;
             } else if (a.equalsIgnoreCase("server")) {
                 System.out.println("Is server local or global?");
                 System.out.println("Write either local or global");

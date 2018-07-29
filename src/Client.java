@@ -9,14 +9,17 @@ class Client { //Client class
 
     static void Start() throws IOException {
         Socket chat = new Socket(IPadress, port);
+        if (chat.isBound()) {
+            System.out.println("Connected");
+        } else {
+            System.out.println("Failed");
+            System.exit(0);
+        }
         PrintWriter writer = new PrintWriter(chat.getOutputStream());
     }
 
     public static void setIPadress() {
         Scanner sc = new Scanner(System.in);
-        String i = sc.nextLine();
-        IPadress = i;
-
-
+        IPadress = sc.nextLine();
     }
 }
