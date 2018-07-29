@@ -13,10 +13,7 @@ class Server { //Server class
         System.out.println("Connected! Waiting for input...");
         BufferedReader br = new BufferedReader(new InputStreamReader(s.getInputStream()));
         while (true) {
-            if (br.ready()) {
-                System.out.println("Has some Data! Here it is:");
-                System.out.println(br.readLine());
-            }
+            System.out.println(br.readLine());
         }
     }
 
