@@ -5,7 +5,7 @@ import java.util.Scanner;
 
 class Client { //Client class
     private static String IPadress;
-    private static int port;
+    final private static int port = 5000;
 
     static void Start() throws IOException {
         Socket chat = new Socket(IPadress, port);
@@ -16,9 +16,6 @@ class Client { //Client class
         Scanner sc = new Scanner(System.in);
         String i = sc.nextLine();
         IPadress = i;
-        Scanner sr = new Scanner(System.in);
-        int q = sc.nextInt();
-        port = q;
 
 
     }
