@@ -1,11 +1,16 @@
+import java.awt.*;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.net.*;
 
 class Server { //Server class
-    static void Start(boolean isLocal) throws IOException {
+    static void Start(boolean isLocal) throws IOException, AWTException {
         ServerSocket ss = new ServerSocket(5000);
+        String a;
+        Robot r = new Robot();
+        int state;
+        int code;
         System.out.println("This is a server IP: " + getIP(isLocal));
         System.out.println("Just send it to client!");
         System.out.println("Waiting for client to connect...");
@@ -13,7 +18,15 @@ class Server { //Server class
         System.out.println("Connected! Waiting for input...");
         BufferedReader br = new BufferedReader(new InputStreamReader(s.getInputStream()));
         while (true) {
-            System.out.println(br.readLine());
+            a = br.readLine();
+            System.out.println(a);
+            code = Integer.parseInt(a.substring(0, a.indexOf(' ')));
+            state = Integer.parseInt(a.substring(a.indexOf(' ')));
+            if (state == 0) {
+                r.keyPress(code);
+            } else {
+                r.keyRelease(code);
+            }
         }
     }
 
