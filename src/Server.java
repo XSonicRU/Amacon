@@ -1,5 +1,26 @@
-class Server { //Server class
-    static void Start() {
+import java.io.IOException;
+import java.net.DatagramSocket;
+import java.net.InetAddress;
+import java.net.ServerSocket;
 
+class Server { //Server class
+    static void Start() throws IOException {
+        ServerSocket s = new ServerSocket(5000);
+        System.out.println("This is a server IP: " + getIP());
+        System.out.println("Just send it to client");
+        System.out.println("Waiting for client to connect...");
+        s.accept();
+    }
+
+    private static String getIP() {
+        String ip = "";
+        try (final DatagramSocket socket = new DatagramSocket()) {
+            socket.connect(InetAddress.getByName("8.8.8.8"), 10002);
+            ip = socket.getLocalAddress().getHostAddress();
+        } catch (Exception e) {
+            System.out.println("Error!");
+            System.exit(0);
+        }
+        return ip;
     }
 }
