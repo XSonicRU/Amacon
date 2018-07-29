@@ -1,7 +1,8 @@
+import java.io.IOException;
 import java.util.Scanner;
 
 public class Starter { //Class used for starting application
-    public static void main(String[] args) {
+    public static void main(String[] args) throws IOException {
         System.out.println("Are you client or server?");
         while (true) {
             System.out.println("Write either client or server");
