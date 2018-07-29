@@ -1,5 +1,8 @@
 import java.net.Socket;
 
 class Client { //Client class
-    Socket chat = new Socket();
+    static void Start() {
+        Socket chat = new Socket();
+
+    }
 }
