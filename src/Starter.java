@@ -9,8 +9,7 @@ public class Starter { //Class used for starting application
             Scanner s = new Scanner(System.in);
             String a = s.nextLine();
             if (a.equalsIgnoreCase("client")) {
-                Client abc = new Client();
-                abc.setIPadress();
+                Client.setIPadress();
 
             } else if (a.equalsIgnoreCase("server")) {
                 System.out.println("Is server local or global?");

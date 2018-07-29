@@ -10,7 +10,7 @@ class Client { //Client class
         Socket chat = new Socket(IPadress, port);
     }
 
-    public void setIPadress() {
+    public static void setIPadress() {
         Scanner sc = new Scanner(System.in);
         String i = sc.nextLine();
         IPadress = i;
