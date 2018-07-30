@@ -14,31 +14,37 @@ class GUI extends JFrame { //GUI class for starting application
     private JPanel jp = new JPanel();
 
     private void serveraction(boolean isLocal) {
-        sbut.setVisible(false);
-        cbut.setVisible(false);
-        try {
-            ServerSocket ss = new ServerSocket(5000);
-            String a;
-            Robot r = new Robot();
-            int state;
-            int code;
-            jl.setText("This is a server IP: " + getIP(isLocal) + "Waiting for client to connect...");
-            Socket s = ss.accept();
-            jl.setText("Connected! Waiting for input...");
-            BufferedReader br = new BufferedReader(new InputStreamReader(s.getInputStream()));
-            while (true) {
-                a = br.readLine();
-                jl.setText("Got input! Here is the code: " + a);
-                code = Integer.parseInt(a.substring(0, a.indexOf(' ')));
-                state = Integer.parseInt(a.substring(a.indexOf(' ')));
-                if (state == 0) {
-                    r.keyPress(code);
-                } else {
-                    r.keyRelease(code);
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                System.out.println("я тут");
+                cbut.setText("Exit");
+                System.out.println("я тут2");
+                try {
+                    ServerSocket ss = new ServerSocket(5000);
+                    String a;
+                    Robot r = new Robot();
+                    int state;
+                    int code;
+                    jl.setText("This is a server IP: " + getIP(isLocal) + "Waiting for client to connect...");
+                    Socket s = ss.accept();
+                    jl.setText("Connected! Waiting for input...");
+                    BufferedReader br = new BufferedReader(new InputStreamReader(s.getInputStream()));
+                    while (true) {
+                        a = br.readLine();
+                        jl.setText("Got input! Here is the code: " + a);
+                        code = Integer.parseInt(a.substring(0, a.indexOf(' ')));
+                        state = Integer.parseInt(a.substring(a.indexOf(' ')));
+                        if (state == 0) {
+                            r.keyPress(code);
+                        } else {
+                            r.keyRelease(code);
+                        }
+                    }
+                } catch (Exception ignored) {
                 }
             }
-        } catch (Exception ignored) {
-        }
+        }).start();
     }
 
     private void clientaction() {
