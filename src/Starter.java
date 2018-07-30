@@ -1,9 +1,12 @@
 public class Starter {
     public static void main(String[] args) {
-        try {
-            GUI g = new GUI();
-        } catch (Exception ignored) {
-        }
-
+        javax.swing.SwingUtilities.invokeLater(new Runnable() {
+            public void run() {
+                try {
+                    GUI g = new GUI();
+                } catch (Exception ignored) {
+                }
+            }
+        });
     }
 }
