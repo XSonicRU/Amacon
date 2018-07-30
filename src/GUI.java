@@ -2,8 +2,12 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.KeyEvent;
+import java.awt.event.KeyListener;
 import java.io.BufferedReader;
+import java.io.IOException;
 import java.io.InputStreamReader;
+import java.io.PrintWriter;
 import java.net.*;
 
 class GUI extends JFrame { //GUI class for starting application
@@ -13,6 +17,8 @@ class GUI extends JFrame { //GUI class for starting application
     private JLabel jl = new JLabel();
     private JPanel jp = new JPanel();
     private JTextField jtf = new JTextField();
+    private boolean isjtffilled = false;
+    private int keycode = -50;
 
     private void serveraction(boolean isLocal) {
         new Thread(new Runnable() {
@@ -52,9 +58,57 @@ class GUI extends JFrame { //GUI class for starting application
         cbut.setVisible(false);
         sbut.setVisible(false);
         jl.setText("Input your friend's IP ");
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                while (!isjtffilled) {
+                    Thread.onSpinWait();
+                }
+                Socket chat = null;
+                try {
+                    chat = new Socket(jtf.getText(), 5000);
+                } catch (IOException e) {
+                    System.exit(0);
+                }
+                if (chat.isBound()) {
+                    jl.setText("Connected");
+                } else {
+                    System.out.println("Failed");
+                    System.exit(0);
+                }
+                PrintWriter writer = null;
+                try {
+                    writer = new PrintWriter(chat.getOutputStream());
+                } catch (IOException err) {
+                    System.exit(0);
+                }
+                while (true) {
+                    if (keycode != -50) {
+                        writer.print(keycode);
+                        keycode = -50;
+                    }
+                }
+            }
+        });
     }
 
     GUI() {
+        addKeyListener(new KeyListener() {
+            @Override
+            public void keyTyped(KeyEvent e) {
+
+            }
+
+            @Override
+            public void keyPressed(KeyEvent e) {
+                keycode = e.getKeyCode();
+            }
+
+            @Override
+            public void keyReleased(KeyEvent e) {
+
+            }
+        });
         setVisible(true);
         setDefaultCloseOperation(EXIT_ON_CLOSE);
         setMinimumSize(new Dimension(600, 400));
@@ -95,6 +149,12 @@ class GUI extends JFrame { //GUI class for starting application
         container.add(jp, BorderLayout.CENTER);
         container.add(jtf, BorderLayout.SOUTH);
         jtf.setVisible(false);
+        jtf.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                isjtffilled = true;
+            }
+        });
     }
 
     private String getIP(boolean isLocal) {
