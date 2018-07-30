@@ -55,8 +55,8 @@ class GUI extends JFrame { //GUI class for starting application
             public void actionPerformed(ActionEvent e) {
                 if (Flags.serverstage == 0) {
                     Flags.serverstage++;
-                    sbut.setText("local");
-                    cbut.setText("global");
+                    sbut.setText("Local");
+                    cbut.setText("Global");
                     jl.setText("Set type of your server");
                 } else {
                     serveraction(true);
