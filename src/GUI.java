@@ -99,7 +99,7 @@ class GUI extends JFrame { //GUI class for starting application
         container.setLayout(new BorderLayout());
         container.add(sbut, BorderLayout.LINE_START);
         container.add(cbut, BorderLayout.LINE_END);
-        jp.addKeyListener(new KeyAdapter() {
+        jtf.addKeyListener(new KeyAdapter() {
             @Override
             public void keyPressed(KeyEvent e) {
                 System.out.println(e.getKeyCode());
@@ -115,7 +115,6 @@ class GUI extends JFrame { //GUI class for starting application
                     @Override
                     public void run() {
                         System.out.println("FILLED! CONN TO " + jtf.getText());
-                        jtf.setVisible(false);
                         Socket chat = null;
                         try {
                             chat = new Socket(jtf.getText(), 5000);
