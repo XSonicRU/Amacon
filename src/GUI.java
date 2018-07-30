@@ -2,8 +2,8 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
-import java.awt.event.KeyListener;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
@@ -58,58 +58,9 @@ class GUI extends JFrame { //GUI class for starting application
         cbut.setVisible(false);
         sbut.setVisible(false);
         jl.setText("Input your friend's IP ");
-        new Thread(new Runnable() {
-            @Override
-            public void run() {
-                while (!isjtffilled) {
-                    Thread.onSpinWait();
-                }
-                jtf.setVisible(false);
-                Socket chat = null;
-                try {
-                    chat = new Socket(jtf.getText(), 5000);
-                } catch (IOException e) {
-                    System.exit(0);
-                }
-                if (chat.isBound()) {
-                    jl.setText("Connected");
-                } else {
-                    System.out.println("Failed");
-                    System.exit(0);
-                }
-                PrintWriter writer = null;
-                try {
-                    writer = new PrintWriter(chat.getOutputStream());
-                } catch (IOException err) {
-                    System.exit(0);
-                }
-                while (true) {
-                    if (keycode != -50) {
-                        writer.print(keycode);
-                        keycode = -50;
-                    }
-                }
-            }
-        });
     }
 
     GUI() {
-        addKeyListener(new KeyListener() {
-            @Override
-            public void keyTyped(KeyEvent e) {
-
-            }
-
-            @Override
-            public void keyPressed(KeyEvent e) {
-                keycode = e.getKeyCode();
-            }
-
-            @Override
-            public void keyReleased(KeyEvent e) {
-
-            }
-        });
         setVisible(true);
         setDefaultCloseOperation(EXIT_ON_CLOSE);
         setMinimumSize(new Dimension(600, 400));
@@ -147,13 +98,49 @@ class GUI extends JFrame { //GUI class for starting application
         container.setLayout(new BorderLayout());
         container.add(sbut, BorderLayout.LINE_START);
         container.add(cbut, BorderLayout.LINE_END);
+        jp.addKeyListener(new KeyAdapter() {
+            @Override
+            public void keyPressed(KeyEvent e) {
+                System.out.println(e.getKeyCode());
+            }
+        });
         container.add(jp, BorderLayout.CENTER);
         container.add(jtf, BorderLayout.SOUTH);
         jtf.setVisible(false);
         jtf.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                isjtffilled = true;
+                new Thread(new Runnable() {
+                    @Override
+                    public void run() {
+                        System.out.println("FILLED! CONN TO " + jtf.getText());
+                        jtf.setVisible(false);
+                        Socket chat = null;
+                        try {
+                            chat = new Socket(jtf.getText(), 5000);
+                        } catch (IOException e) {
+                            System.exit(0);
+                        }
+                        if (chat.isBound()) {
+                            jl.setText("Connected");
+                        } else {
+                            System.out.println("Failed");
+                            System.exit(0);
+                        }
+                        PrintWriter writer = null;
+                        try {
+                            writer = new PrintWriter(chat.getOutputStream());
+                        } catch (IOException err) {
+                            System.exit(0);
+                        }
+                        while (true) {
+                            if (keycode != -50) {
+                                writer.print(keycode);
+                                keycode = -50;
+                            }
+                        }
+                    }
+                }).start();
             }
         });
     }
