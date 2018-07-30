@@ -12,6 +12,7 @@ class GUI extends JFrame { //GUI class for starting application
     private Container container = getContentPane();
     private JLabel jl = new JLabel();
     private JPanel jp = new JPanel();
+    private JTextField jtf = new JTextField();
 
     private void serveraction(boolean isLocal) {
         new Thread(new Runnable() {
@@ -47,7 +48,10 @@ class GUI extends JFrame { //GUI class for starting application
     }
 
     private void clientaction() {
-
+        jtf.setVisible(true);
+        cbut.setVisible(false);
+        sbut.setVisible(false);
+        jl.setText("Input your friend's IP ");
     }
 
     GUI() {
@@ -89,6 +93,8 @@ class GUI extends JFrame { //GUI class for starting application
         container.add(sbut, BorderLayout.LINE_START);
         container.add(cbut, BorderLayout.LINE_END);
         container.add(jp, BorderLayout.CENTER);
+        container.add(jtf, BorderLayout.SOUTH);
+        jtf.setVisible(false);
     }
 
     private String getIP(boolean isLocal) {
