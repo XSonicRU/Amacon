@@ -64,6 +64,7 @@ class GUI extends JFrame { //GUI class for starting application
                 while (!isjtffilled) {
                     Thread.onSpinWait();
                 }
+                jtf.setVisible(false);
                 Socket chat = null;
                 try {
                     chat = new Socket(jtf.getText(), 5000);
