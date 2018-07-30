@@ -17,16 +17,15 @@ class GUI extends JFrame { //GUI class for starting application
         new Thread(new Runnable() {
             @Override
             public void run() {
-                System.out.println("я тут");
                 cbut.setText("Exit");
-                System.out.println("я тут2");
+                remove(sbut);
                 try {
                     ServerSocket ss = new ServerSocket(5000);
                     String a;
                     Robot r = new Robot();
                     int state;
                     int code;
-                    jl.setText("This is a server IP: " + getIP(isLocal) + "Waiting for client to connect...");
+                    jl.setText("This is a server IP: " + getIP(isLocal) + ". Now waiting for client to connect...");
                     Socket s = ss.accept();
                     jl.setText("Connected! Waiting for input...");
                     BufferedReader br = new BufferedReader(new InputStreamReader(s.getInputStream()));
@@ -65,6 +64,7 @@ class GUI extends JFrame { //GUI class for starting application
                     cbut.setText("Global");
                     jl.setText("Set type of your server");
                 } else {
+                    Flags.serverstage++;
                     serveraction(true);
                 }
             }
@@ -73,7 +73,10 @@ class GUI extends JFrame { //GUI class for starting application
             @Override
             public void actionPerformed(ActionEvent e) {
                 if (Flags.serverstage == 1) {
+                    Flags.serverstage++;
                     serveraction(false);
+                } else if (Flags.serverstage == 2) {
+                    System.exit(0);
                 }
                 clientaction();
             }
