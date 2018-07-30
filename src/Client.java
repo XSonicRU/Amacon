@@ -14,7 +14,9 @@ class Client { //Client class
             System.exit(0);
         }
         PrintWriter writer = new PrintWriter(chat.getOutputStream());
-        writer.println("Hello world");
+        while (true) {
+            writer.println("Hello world");
+        }
     }
 
     void setIPadress(String addr) throws IOException {
