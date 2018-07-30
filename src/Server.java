@@ -5,7 +5,7 @@ import java.io.InputStreamReader;
 import java.net.*;
 
 class Server { //Server class
-    static void Start(boolean isLocal) throws IOException, AWTException {
+    void Start(boolean isLocal) throws IOException, AWTException {
         ServerSocket ss = new ServerSocket(5000);
         String a;
         Robot r = new Robot();
@@ -30,7 +30,7 @@ class Server { //Server class
         }
     }
 
-    private static String getIP(boolean isLocal) {
+    private String getIP(boolean isLocal) {
         String ip = "";
         if (isLocal) {
             try (final DatagramSocket socket = new DatagramSocket()) {

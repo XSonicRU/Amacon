@@ -1,14 +1,12 @@
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.net.Socket;
-import java.util.Scanner;
 
 class Client { //Client class
-    private static String IPadress;
-    final private static int port = 5000;
+    private String IPadress;
 
-    static void Start() throws IOException {
-        Socket chat = new Socket(IPadress, port);
+    private void Start() throws IOException {
+        Socket chat = new Socket(IPadress, 5000);
         if (chat.isBound()) {
             System.out.println("Connected");
         } else {
@@ -19,10 +17,8 @@ class Client { //Client class
         writer.println("Hello world");
     }
 
-    public static void setIPadress() throws IOException {
-        System.out.println("Enter server IP adress:");
-        Scanner sc = new Scanner(System.in);
-        IPadress = sc.nextLine();
+    void setIPadress(String addr) throws IOException {
+        IPadress = addr;
         Start();
     }
 }

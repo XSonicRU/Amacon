@@ -4,22 +4,25 @@ import java.util.Scanner;
 
 public class Starter { //Class used for starting application
     public static void main(String[] args) throws IOException, AWTException {
+
         System.out.println("Are you client or server?");
         while (true) {
             System.out.println("Write either client or server");
             Scanner s = new Scanner(System.in);
             String a = s.nextLine();
             if (a.equalsIgnoreCase("client")) {
-                Client.setIPadress();
+                Client c = new Client();
+                c.setIPadress(""); //TODO
                 break;
             } else if (a.equalsIgnoreCase("server")) {
                 System.out.println("Is server local or global?");
                 System.out.println("Write either local or global");
                 a = s.nextLine();
+                Server server = new Server();
                 if (a.equalsIgnoreCase("global")) {
-                    Server.Start(false);
+                    server.Start(false);
                 } else if (a.equalsIgnoreCase("local")) {
-                    Server.Start(true);
+                    server.Start(true);
                 } else {
                     System.out.println("Enter a correct word");
                     continue;
