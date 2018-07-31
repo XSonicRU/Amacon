@@ -28,7 +28,6 @@ class GUI extends JFrame { //GUI class for starting application
                     ServerSocket ss = new ServerSocket(5000);
                     String a;
                     Robot r = new Robot();
-                    int state;
                     int code;
                     jl.setText("This is a server IP: " + getIP(isLocal) + ". Now waiting for client to connect...");
                     Socket s = ss.accept();
@@ -36,13 +35,12 @@ class GUI extends JFrame { //GUI class for starting application
                     BufferedReader br = new BufferedReader(new InputStreamReader(s.getInputStream()));
                     while (true) {
                         a = br.readLine();
-                        jl.setText("Got input! Here is the code: " + a);
-                        code = Integer.parseInt(a.substring(0, a.indexOf(' ')));
-                        state = Integer.parseInt(a.substring(a.indexOf(' ')));
-                        if (state == 0) {
+                        if (s.isBound()) {
+                            jl.setText("Connected and working!");
+                        }
+                        if (!a.equalsIgnoreCase("-50")) {
+                            code = Integer.parseInt(a);
                             r.keyPress(code);
-                        } else {
-                            r.keyRelease(code);
                         }
                     }
                 } catch (Exception ignored) {
