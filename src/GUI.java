@@ -131,11 +131,7 @@ class GUI extends JFrame { //GUI class for starting application
                                 System.exit(0);
                             }
                             while (true) {
-                                if (Flags.getKeycode() != -50) {
                                     writer.println(Flags.getKeycode());
-                                    System.out.println(Flags.getKeycode());
-                                    Flags.setKeycode(-50);
-                                }
                             }
                         }
                     }).start();
