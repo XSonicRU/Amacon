@@ -62,9 +62,7 @@ class GUI extends JFrame { //GUI class for starting application
     GUI() {
         setVisible(true);
         setDefaultCloseOperation(EXIT_ON_CLOSE);
-        Toolkit toolkit = Toolkit.getDefaultToolkit();
-        Dimension dimension = toolkit.getScreenSize();
-        setBounds(dimension.width / 2 - 250, dimension.height / 2 - 150, 500, 300);
+        setBounds(Toolkit.getDefaultToolkit().getScreenSize().width / 2 - 250, Toolkit.getDefaultToolkit().getScreenSize().height / 2 - 150, 500, 300);
         sbut.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
