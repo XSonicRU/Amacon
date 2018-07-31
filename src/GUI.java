@@ -17,7 +17,6 @@ class GUI extends JFrame { //GUI class for starting application
     private JLabel jl = new JLabel();
     private JPanel jp = new JPanel();
     private JTextField jtf = new JTextField();
-    private boolean isjtffilled = false;
     private int keycode = -50;
 
     private void serveraction(boolean isLocal) {
@@ -57,7 +56,7 @@ class GUI extends JFrame { //GUI class for starting application
         jtf.setVisible(true);
         cbut.setVisible(false);
         sbut.setVisible(false);
-        jl.setText("Input your friend's IP ");
+        jl.setText("Input your friend's IP and press Enter");
     }
 
     GUI() {
@@ -111,36 +110,39 @@ class GUI extends JFrame { //GUI class for starting application
         jtf.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                new Thread(new Runnable() {
-                    @Override
-                    public void run() {
-                        System.out.println("FILLED! CONN TO " + jtf.getText());
-                        Socket chat = null;
-                        try {
-                            chat = new Socket(jtf.getText(), 5000);
-                        } catch (IOException e) {
-                            System.exit(0);
-                        }
-                        if (chat.isBound()) {
-                            jl.setText("Connected");
-                        } else {
-                            System.out.println("Failed");
-                            System.exit(0);
-                        }
-                        PrintWriter writer = null;
-                        try {
-                            writer = new PrintWriter(chat.getOutputStream());
-                        } catch (IOException err) {
-                            System.exit(0);
-                        }
-                        while (true) {
-                            if (keycode != -50) {
-                                writer.print(keycode);
-                                keycode = -50;
+                if (!Flags.used) {
+                    new Thread(new Runnable() {
+                        @Override
+                        public void run() {
+                            System.out.println("FILLED! CONN TO " + jtf.getText());
+                            Socket chat = null;
+                            try {
+                                chat = new Socket(jtf.getText(), 5000);
+                            } catch (IOException e) {
+                                System.exit(0);
+                            }
+                            if (chat.isBound()) {
+                                jl.setText("Connected");
+                            } else {
+                                System.out.println("Failed");
+                                System.exit(0);
+                            }
+                            PrintWriter writer = null;
+                            try {
+                                writer = new PrintWriter(chat.getOutputStream());
+                            } catch (IOException err) {
+                                System.exit(0);
+                            }
+                            while (true) {
+                                if (keycode != -50) {
+                                    writer.println(keycode);
+                                    keycode = -50;
+                                }
                             }
                         }
-                    }
-                }).start();
+                    }).start();
+                    Flags.used = true;
+                }
             }
         });
     }
