@@ -17,7 +17,6 @@ class GUI extends JFrame { //GUI class for starting application
     private JLabel jl = new JLabel();
     private JPanel jp = new JPanel();
     private JTextField jtf = new JTextField();
-    private int keycode = -50;
 
     private void serveraction(boolean isLocal) {
         new Thread(new Runnable() {
@@ -99,7 +98,7 @@ class GUI extends JFrame { //GUI class for starting application
         jtf.addKeyListener(new KeyAdapter() {
             @Override
             public void keyPressed(KeyEvent e) {
-                System.out.println(e.getKeyCode());
+                Flags.setKeycode(e.getKeyCode());
             }
         });
         container.add(jp, BorderLayout.CENTER);
@@ -132,9 +131,10 @@ class GUI extends JFrame { //GUI class for starting application
                                 System.exit(0);
                             }
                             while (true) {
-                                if (keycode != -50) {
-                                    writer.println(keycode);
-                                    keycode = -50;
+                                if (Flags.getKeycode() != -50) {
+                                    writer.println(Flags.getKeycode());
+                                    System.out.println(Flags.getKeycode());
+                                    Flags.setKeycode(-50);
                                 }
                             }
                         }
