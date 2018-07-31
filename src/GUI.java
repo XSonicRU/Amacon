@@ -33,10 +33,13 @@ class GUI extends JFrame { //GUI class for starting application
                     Socket s = ss.accept();
                     jl.setText("Connected! Waiting for input...");
                     BufferedReader br = new BufferedReader(new InputStreamReader(s.getInputStream()));
+
                     while (true) {
                         a = br.readLine();
                         if (s.isBound()) {
                             jl.setText("Connected and working!");
+                        } else {
+                            jl.setText("Client disconnected");
                         }
                         if (!a.equalsIgnoreCase("-50")) {
                             code = Integer.parseInt(a);
@@ -44,6 +47,7 @@ class GUI extends JFrame { //GUI class for starting application
                         }
                     }
                 } catch (Exception ignored) {
+                    System.out.println("Error");
                 }
             }
         }).start();
