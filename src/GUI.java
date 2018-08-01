@@ -1,14 +1,18 @@
+import org.jnativehook.GlobalScreen;
+import org.jnativehook.NativeHookException;
+import org.jnativehook.keyboard.NativeKeyEvent;
+import org.jnativehook.keyboard.NativeKeyListener;
+
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.awt.event.KeyAdapter;
-import java.awt.event.KeyEvent;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.PrintWriter;
 import java.net.*;
+import java.util.Vector;
 
 class GUI extends JFrame { //GUI class for starting application
     private JButton sbut = new JButton();
@@ -17,6 +21,7 @@ class GUI extends JFrame { //GUI class for starting application
     private JLabel jl = new JLabel();
     private JPanel jp = new JPanel();
     private JTextField jtf = new JTextField();
+    private JFrame frame = this;
 
     private void serveraction(boolean isLocal) {
         new Thread(new Runnable() {
@@ -27,13 +32,14 @@ class GUI extends JFrame { //GUI class for starting application
                 try {
                     ServerSocket ss = new ServerSocket(5000);
                     String a;
+                    StringBuilder sb = new StringBuilder();
+                    char[] input;
                     Robot r = new Robot();
                     int code;
                     jl.setText("This is a server IP: " + getIP(isLocal) + ". Now waiting for client to connect...");
                     Socket s = ss.accept();
                     jl.setText("Connected! Waiting for input...");
                     BufferedReader br = new BufferedReader(new InputStreamReader(s.getInputStream()));
-
                     while (true) {
                         a = br.readLine();
                         if (s.isBound()) {
@@ -41,9 +47,17 @@ class GUI extends JFrame { //GUI class for starting application
                         } else {
                             jl.setText("Client disconnected");
                         }
-                        if (!a.equalsIgnoreCase("-50")) {
-                            code = Integer.parseInt(a);
-                            r.keyPress(code);
+                        input = a.toCharArray();
+                        for (char c : input) {
+                            if (Character.isDigit(c)) {
+                                sb.append(c);
+                            } else {
+                                if (c == ' ') {
+                                    r.keyPress(Integer.parseInt(sb.toString()));
+                                    JOptionPane.showMessageDialog(frame, sb.toString() + "pressed!");
+                                    sb.delete(0, sb.length());
+                                }
+                            }
                         }
                     }
                 } catch (Exception ignored) {
@@ -97,15 +111,9 @@ class GUI extends JFrame { //GUI class for starting application
         container.setLayout(new BorderLayout());
         container.add(sbut, BorderLayout.LINE_START);
         container.add(cbut, BorderLayout.LINE_END);
-        jtf.addKeyListener(new KeyAdapter() {
-            @Override
-            public void keyPressed(KeyEvent e) {
-                Flags.setKeycode(e.getKeyCode());
-            }
-        });
         container.add(jp, BorderLayout.CENTER);
-        container.add(jtf, BorderLayout.SOUTH);
         jtf.setVisible(false);
+        container.add(jtf, BorderLayout.SOUTH);
         jtf.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -115,6 +123,8 @@ class GUI extends JFrame { //GUI class for starting application
                         public void run() {
                             System.out.println("FILLED! CONN TO " + jtf.getText());
                             Socket chat = null;
+                            StringBuilder sb = new StringBuilder();
+                            Vector<Integer> buf;
                             try {
                                 chat = new Socket(jtf.getText(), 5000);
                             } catch (IOException e) {
@@ -133,12 +143,40 @@ class GUI extends JFrame { //GUI class for starting application
                                 System.exit(0);
                             }
                             while (true) {
-                                    writer.println(Flags.getKeycode());
+                                buf = Flags.getbuttons();
+                                for (Integer i : buf) {
+                                    sb.append(i);
+                                    sb.append(" ");
+                                }
+                                writer.println(sb.toString());
+                                sb.delete(0, sb.length());
                             }
                         }
                     }).start();
                     Flags.used = true;
                 }
+            }
+        });
+        try {
+            GlobalScreen.registerNativeHook();
+        } catch (NativeHookException e) {
+            JOptionPane.showMessageDialog(frame, "There is a problem registering your key presses");
+            System.exit(0);
+        }
+        GlobalScreen.addNativeKeyListener(new NativeKeyListener() {
+            @Override
+            public void nativeKeyTyped(NativeKeyEvent nativeKeyEvent) {
+
+            }
+
+            @Override
+            public void nativeKeyPressed(NativeKeyEvent nativeKeyEvent) {
+                Flags.keyaction(true, nativeKeyEvent.getKeyCode());
+            }
+
+            @Override
+            public void nativeKeyReleased(NativeKeyEvent nativeKeyEvent) {
+                Flags.keyaction(false, nativeKeyEvent.getKeyCode());
             }
         });
     }

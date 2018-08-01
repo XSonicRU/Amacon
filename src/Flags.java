@@ -7,17 +7,7 @@ class Flags { //Settings and tech stuff
     private static int keycode = -50;
     private static Vector<Integer> curpress = new Vector<>();
 
-    static synchronized int getKeycode() {
-        if (keycode != 50) {
-            int buf = keycode;
-            keycode = -50;
-            return buf;
-        } else {
-            return -50;
-        }
-    }
-
-    static synchronized Vector getbuttons() {
+    static synchronized Vector<Integer> getbuttons() {
         return curpress;
     }
 
@@ -29,9 +19,5 @@ class Flags { //Settings and tech stuff
         } else {
             curpress.remove(keycode);
         }
-    }
-
-    static synchronized void setKeycode(int key) {
-        keycode = key;
     }
 }
