@@ -14,7 +14,7 @@ import java.io.PrintWriter;
 import java.net.*;
 import java.util.Vector;
 
-class GUI extends JFrame { //GUI class for starting application
+class Amacon extends JFrame { //GUI and logic class
     private JButton sbut = new JButton();
     private JButton cbut = new JButton();
     private Container container = getContentPane();
@@ -74,7 +74,7 @@ class GUI extends JFrame { //GUI class for starting application
         jl.setText("Input your friend's IP and press Enter");
     }
 
-    GUI() {
+    Amacon() {
         setVisible(true);
         setDefaultCloseOperation(EXIT_ON_CLOSE);
         setBounds(Toolkit.getDefaultToolkit().getScreenSize().width / 2 - 250, Toolkit.getDefaultToolkit().getScreenSize().height / 2 - 150, 500, 300);

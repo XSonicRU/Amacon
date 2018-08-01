@@ -3,7 +3,7 @@ public class Starter {
         javax.swing.SwingUtilities.invokeLater(new Runnable() {
             public void run() {
                 try {
-                    GUI g = new GUI();
+                    Amacon g = new Amacon();
                 } catch (Exception ignored) {
                 }
             }
