@@ -17,7 +17,7 @@ class Flags { //Settings and tech stuff
                 curpress.add(keycode);
             }
         } else {
-            curpress.remove(keycode);
+            curpress.remove((Integer) keycode);
         }
     }
 }
