@@ -13,11 +13,16 @@ class Flags { //Settings and tech stuff
 
     static synchronized void keyaction(boolean isPressed, int keycode) {
         if (isPressed) {
-            if (curpress.indexOf(keycode) == -1) {
-                curpress.add(keycode);
+            if (keycode != 29) {
+                if (curpress.indexOf(keycode) == -1) {
+                    curpress.add(keycode);
+                }
             }
         } else {
-            curpress.remove((Integer) keycode);
+            if (keycode != 29) {
+                curpress.remove((Integer) keycode);
+                System.out.println(keycode);
+            }
         }
     }
 }
